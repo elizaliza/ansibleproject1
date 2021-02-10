@@ -1,0 +1,36 @@
+---
+  - name: Update Servers on Dev servers
+    hosts: prod
+    gather_facts: yes
+    tasks:
+      - name: Update CentOS
+        when: ansible_facts['distribution'] == "CentOS"
+        yum:
+          name: '*'
+          state: latest
+      
+      - name: Update Ubuntu
+        when: ansible_facts['distribution'] == "Ubuntu"
+        apt:
+          name: '*'
+          state: latest
+
+      - name: Install packages on CentOS
+        when: ansible_facts['distribution'] == "CentOS"
+        yum:
+          name:
+           - vim
+           - git
+           - curl
+           - wget
+          state: latest
+
+      - name: Install packages on Ubuntu
+        when: ansible_facts['distribution'] == "Ubuntu"
+        apt:
+          name:
+           - vim
+           - git
+           - curl
+           - wget
+          state: latest
